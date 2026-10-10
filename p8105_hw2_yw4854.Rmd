@@ -24,7 +24,7 @@ This dataset contains information about NYC subway station and their entrances a
 For data cleaning, I first cleaned the column names using `janitor::clean_names()` to make them easier to work with. Next, I used `select()` to keep only the required variables. Then, I converted the entry variable from character values into logical values using the `case_match()` function. The resulting dataset has `r nrow(nyc_transit_df)` and `r ncol(nyc_transit_df)` clomns.
 But this dataset is not tidy. The main reason is that the route information is spread across eleven different columns. To make the data tidy, each route variable should be reshaped into a single column so that each row represents a unique observation.
 
-## How many distinct stations are there? 
+**How many distinct stations are there?**
 ```{r subway}
 distinct_stations = nyc_transit_df %>%
   distinct(line, station_name) %>%
@@ -32,7 +32,7 @@ distinct_stations = nyc_transit_df %>%
 ```
 There are `r distinct_stations` distinct station in there.
 
-## How many stations are ADA compliant?
+**How many stations are ADA compliant?**
 ```{r}
 ada_compliant_stations = nyc_transit_df %>%
   filter(ada == TRUE) %>%
@@ -41,7 +41,7 @@ ada_compliant_stations = nyc_transit_df %>%
 ```
 There are `r ada_compliant_stations` ada compliant.
 
-## What proportion of station entrances / exits without vending allow entrance?
+**What proportion of station entrances / exits without vending allow entrance?**
 ```{r}
 vending_no_prop = nyc_transit_df %>%
   filter(vending == "NO") %>%
@@ -50,7 +50,7 @@ vending_no_prop = nyc_transit_df %>%
 ```
 The proportion of station entrances / exits without vending allow entrance is about `r round(vending_no_prop, 3)` .
 
-## Reformat data 
+**Reformat data**
 ```{r}
 subway_reformat_df = nyc_transit_df %>%
   mutate(across(starts_with("route"), as.character)) %>%
@@ -100,7 +100,7 @@ Mr_Trash_Wheel =
   )
 ```
 
-```{r Professor_Trash_Wheel}
+```{r Professor_Trash_Wheel, warning = FALSE}
 Professor_Trash_Wheel = 
   read_excel("data/202610 Trash Wheel Collection Data.xlsx",
              sheet = "Professor Trash Wheel",
@@ -135,7 +135,7 @@ all_trash_wheel = bind_rows(Mr_Trash_Wheel, Professor_Trash_Wheel, gwynnda_trash
   relocate(wheel)
 ```
 
-## what was the total weight of trash collected by Professor Trash Wheel? 
+**what was the total weight of trash collected by Professor Trash Wheel?**
 ```{r}
 Professor_Trash_Weight = all_trash_wheel %>%
   filter(wheel == "Professor Trash Wheel") %>%
@@ -143,7 +143,7 @@ Professor_Trash_Weight = all_trash_wheel %>%
   pull(total_weight)
 ```
 
-## What was the total number of cigarette butts collected by Gwynnda in June of 2022?
+**What was the total number of cigarette butts collected by Gwynnda in June of 2022?**
 ```{r}
 gwynnda_june2022_cigs = all_trash_wheel %>%
   filter(wheel == "Gwynnda the Good Wheel of the W", year == 2022, month == "June") %>%
@@ -163,7 +163,7 @@ mci_baseline_df = read_csv("data/data_mci/MCI_baseline.csv", skip = 1, na = c(".
   ) %>%
   filter(is.na(age_at_onset) | age_at_onset > current_age)
 ```
-## How many participants were recruited, and of these how many develop MCI? What is the average baseline age? What proportion of women in the study are APOE4 carriers?
+**How many participants were recruited, and of these how many develop MCI? What is the average baseline age? What proportion of women in the study are APOE4 carriers?**
 ```{r}
 n_recruited = nrow(mci_baseline_df)
 
