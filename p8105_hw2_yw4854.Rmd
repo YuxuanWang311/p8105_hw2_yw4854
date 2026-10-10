@@ -1,0 +1,20 @@
+---
+title: "p8105_hw2_yw4854"
+author: "Yuxuan Wang"
+date: "2026-10-6"
+output: github_document
+---
+
+```{r setup, message = FALSE}
+library(tidyverse)
+```
+
+```{r clean_subway_data}
+nyc_transit_df =
+  read.csv("data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
+  janitor::clean_names() %>%
+  select(line, station_name, station_latitude, station_longitude, starts_with("route"), entry, vending, entrance_type, ada) %>%
+  mutate(
+    entry = case_match(entry, "YES" ~ TRUE, "NO" ~ FALSE)
+  )
+```
